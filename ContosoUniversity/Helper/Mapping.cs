@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using ContosoUniversity.DataAccess.Entity;
 using ContosoUniversity.Entity;
 using ContosoUniversity.Models;
+using ContosoUniversity.Web.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -62,6 +64,17 @@ namespace ContosoUniversity.Web.Helper
         {
             var enrollmentModel = _mapper.Map<List<EnrollmentModel>>(enrollmentEntity);
             return enrollmentModel;
+        }
+        public AdminModel adminToAdminModel(Admin adminEntity)
+        {
+            var adminModel = _mapper.Map<AdminModel>(adminEntity);
+            return adminModel;
+        }
+
+        public Admin adminModelToAdmin(AdminModel adminModel)
+        {
+            var adminEntity = _mapper.Map<Admin>(adminModel);
+            return adminEntity;
         }
     }
 }

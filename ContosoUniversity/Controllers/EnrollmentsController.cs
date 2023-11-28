@@ -128,7 +128,9 @@ namespace ContosoUniversity.Controllers
             }
 
             var enrollmentEntity = _map.enrollmentModelToEnrollment(enrollmentModel);
-            if (ModelState.IsValid)
+            if (await TryUpdateModelAsync(enrollmentModel, "",
+                c => c.StudentID, c => c.CourseID,c => c.Grade
+                ))
             {
                 try
                 {

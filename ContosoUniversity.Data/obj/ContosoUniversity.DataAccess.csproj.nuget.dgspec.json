@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Repositary\\ContosoUniversity\\ContosoUniversity.Data\\ContosoUniversity.DataAccess.csproj": {}
+    "D:\\Sample Work\\Auth\\Contoso-University\\ContosoUniversity.Data\\ContosoUniversity.DataAccess.csproj": {}
   },
   "projects": {
-    "D:\\Repositary\\ContosoUniversity\\ContosoUniversity.Data\\ContosoUniversity.DataAccess.csproj": {
+    "D:\\Sample Work\\Auth\\Contoso-University\\ContosoUniversity.Data\\ContosoUniversity.DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Repositary\\ContosoUniversity\\ContosoUniversity.Data\\ContosoUniversity.DataAccess.csproj",
+        "projectUniqueName": "D:\\Sample Work\\Auth\\Contoso-University\\ContosoUniversity.Data\\ContosoUniversity.DataAccess.csproj",
         "projectName": "ContosoUniversity.DataAccess",
-        "projectPath": "D:\\Repositary\\ContosoUniversity\\ContosoUniversity.Data\\ContosoUniversity.DataAccess.csproj",
-        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "D:\\Repositary\\ContosoUniversity\\ContosoUniversity.Data\\obj\\",
+        "projectPath": "D:\\Sample Work\\Auth\\Contoso-University\\ContosoUniversity.Data\\ContosoUniversity.DataAccess.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "D:\\Sample Work\\Auth\\Contoso-University\\ContosoUniversity.Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -59,6 +57,10 @@
             "Microsoft.EntityFrameworkCore.Relational.Design": {
               "target": "Package",
               "version": "[1.1.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.0, )"
             }
           },
           "imports": [
@@ -77,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

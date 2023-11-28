@@ -31,10 +31,11 @@
         </dd>
     </dl>
 
-    <form asp-action="Delete">
+    <form id="formDelete">
         <input type="hidden" asp-for="ID" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="button" value="Delete" class="btn btn-danger" id="btnDelete" /> |
         <a asp-action="Index">Back to List</a>
     </form>
 </div>
 
+<script src="~/js/student/student.delete.js"></script>

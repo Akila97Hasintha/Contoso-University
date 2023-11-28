@@ -33,7 +33,7 @@ namespace ContosoUniversity.Comon.Servises
         }
         public async Task UpdateStudent(Course courseEntity)
         {
-            await UpdateStudent(courseEntity);
+            await courseRepository.UpdateStudent(courseEntity);
         }
 
         public async Task DeletCourse(int? id)

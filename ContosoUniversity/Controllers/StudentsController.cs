@@ -5,15 +5,20 @@ using ContosoUniversity.Data;
 using ContosoUniversity.Entity;
 using ContosoUniversity.Models;
 using ContosoUniversity.Web.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
+
 
 namespace ContosoUniversity.Controllers
 {
+
+    [EnableCors]
     public class StudentsController : Controller
     {
        
@@ -29,10 +34,8 @@ namespace ContosoUniversity.Controllers
 
             
         }
-        public async Task<IActionResult> Index(string sortOrder,
-    string currentFilter,
-    string searchString,
-    int? pageNumber)
+        public async Task<IActionResult> Index(
+  )
         {
             var studentEntity = await studentServices.GetStudents();
             var student = _map.studentsToListStudent(studentEntity);
@@ -40,8 +43,27 @@ namespace ContosoUniversity.Controllers
             
             return View(student);
         }
+        [Authorize]
+        [HttpGet,ActionName("getStudentList")]
+        public async Task<IActionResult> getStudentList(
+ )
+        {
+            var studentEntity = await studentServices.GetStudents();
+            var student = _map.studentsToListStudent(studentEntity);
+
+
+            return PartialView("~/Views/Students/PartialViews/studentIndexPartial.cshtml", student);
+        }
+
+
         // Get: Students/Details
-        public async Task<IActionResult> Details(int? id)
+        
+        public async Task<IActionResult> Details(int id)
+        {
+            return View(id);
+        }
+        [Authorize]
+        public async Task<IActionResult> GetStudentDetails(int? id)
         {
             if(id == null)
             {
@@ -57,7 +79,7 @@ namespace ContosoUniversity.Controllers
 
 
             var studentModel = _map.studentToStudentModel(studentEntity);
-            return View(studentModel);
+            return PartialView("~/Views/Students/PartialViews/StudentDetailsPartial.cshtml", studentModel);
         }
         // Get: Students/Create
         public IActionResult create()
@@ -65,17 +87,19 @@ namespace ContosoUniversity.Controllers
             return View();
         }
         // POST: Students/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,LastName,FirstMidName,EnrollmentDate")] StudentModel studentmodel)
+        [Authorize]
+        [HttpPost,ActionName("Create")]
+        
+        public async Task<JsonResult> Create([Bind("ID,LastName,FirstMidName,EnrollmentDate")] StudentModel studentmodel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     var studentEntity = _map.studentModelToStudent(studentmodel);
+                    Console.WriteLine($"LastName: {studentEntity.EnrollmentDate}, FirstMidName: {studentEntity.FirstMidName}");
                     await studentServices.CreateStudent(studentEntity);
-                    return RedirectToAction(nameof(Index));
+                    return Json(new { success = true });
                 }
             }
             catch (DbUpdateException)
@@ -83,7 +107,7 @@ namespace ContosoUniversity.Controllers
                 ModelState.AddModelError("", "unable to save ");
             }
 
-            return View(studentmodel);
+            return Json(new { success = false, error = "Model validation failed" });
         }
 
         // GET: Students/Delete/5
@@ -112,14 +136,15 @@ namespace ContosoUniversity.Controllers
         }
 
         // post:student/delete
+        [Authorize]
 
         [HttpPost,ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int id)
+       
+        public async Task<JsonResult> DeleteConfirm(int id)
         {
             await studentServices.DeleteStudent(id);
-            
-            return RedirectToAction(nameof(Index));
+
+            return Json(new { success = true });
         }
 
         // get: Students/Edit
@@ -145,25 +170,24 @@ namespace ContosoUniversity.Controllers
 
 
         //Post : Student/edit
+        [Authorize]
         [HttpPost,ActionName("Edit")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPost(int? id,StudentModel studentModel)
+       
+        public async Task<JsonResult> EditPost(int? id,StudentModel studentModel)
         {
-            if(id == null)
-            {
-                return NotFound();
-            }
 
             var studentEntity = _map.studentModelToStudent(studentModel);
 
 
-            if (ModelState.IsValid)
+            if (await TryUpdateModelAsync(studentModel, "",
+                c => c.FirstMidName, c => c.LastName,c => c.EnrollmentDate
+                ))
             {
                 
                 try
                 {
                     await studentServices.UpdateStudent(studentEntity);
-                    return base.RedirectToAction(nameof(Index));
+                    return Json(new {success = true});
 
                 }
                 catch (DbUpdateException)
@@ -172,7 +196,7 @@ namespace ContosoUniversity.Controllers
                 }
 
             }
-            return View(studentModel);
+            return Json(new { success = false });
         }
 
 

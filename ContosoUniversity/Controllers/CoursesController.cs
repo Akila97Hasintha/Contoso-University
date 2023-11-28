@@ -6,10 +6,12 @@ using ContosoUniversity.Data;
 using ContosoUniversity.Entity;
 using ContosoUniversity.Models;
 using ContosoUniversity.Web.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,15 +30,26 @@ namespace ContosoUniversity.Controllers
             
         }
         //get : Courses
-        public  async Task<IActionResult> Index()
+        public   ViewResult Index()
+        {
+            
+;            return View();
+        }
+        [Authorize]
+        public async Task<IActionResult> getCourseList()
         {
             var CourseEntities = await courseServices.GetAllCourses();
             var courses = _map.coursessToListCourses(CourseEntities);
-;            return View(courses);
+             
+            return PartialView("~/Views/Courses/PartialViews/courseIndexPartial.cshtml", courses);
         }
 
         // get Deatils
-        public async Task<IActionResult> Details(int? id)
+        public ViewResult Details(int? id)
+        {
+            return View(id);
+        }
+        public async Task<IActionResult> getCourseDetails(int? id)
         {
             if (id == null)
             {
@@ -52,7 +65,7 @@ namespace ContosoUniversity.Controllers
 
 
             var courseModel = _map.courseToCourseModel(courseEntity);
-            return View(courseModel);
+            return PartialView("~/Views/Courses/PartialViews/courseDetailsPartial.cshtml",courseModel);
         }
         // get : Courses/Create
         public IActionResult create()
@@ -61,9 +74,10 @@ namespace ContosoUniversity.Controllers
         }
 
         // POST: Courses/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CourseID,Title,Credits")] CourseModel courseModel)
+        [Authorize]
+        [HttpPost,ActionName("Create")]
+      
+        public async Task<JsonResult> Create([Bind("CourseID,Title,Credits")] CourseModel courseModel)
         {
             try
             {
@@ -71,8 +85,8 @@ namespace ContosoUniversity.Controllers
                 {
                     var courseEntity = _map.courseModelToCourse(courseModel);
                     await courseServices.CreateCourse(courseEntity);
-                    
-                    return RedirectToAction(nameof(Index));
+
+                    return Json(new { success = true });
                 }
             }
             catch (DbUpdateException)
@@ -80,7 +94,7 @@ namespace ContosoUniversity.Controllers
                 ModelState.AddModelError("", "unable to save ");
             }
 
-            return View(courseModel);
+            return Json(new { success = false });
         }
 
 
@@ -106,21 +120,22 @@ namespace ContosoUniversity.Controllers
         }
         // post : Course/edit
         [HttpPost,ActionName("Edit")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPost(int? id,CourseModel courseModel)
+        
+        public async Task<JsonResult> EditPost(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var courseEntity = _map.courseModelToCourse(courseModel);
-            if (ModelState.IsValid)
+
+            var courseEntity =await courseServices.GetCourseById(id);
+            var courseModel = _map.courseToCourseModel(courseEntity);
+            if (await TryUpdateModelAsync(courseModel, "",c => c.CourseID,
+                c => c.Title, c => c.Credits
+                ))
             {
                 try
                 {
-                    await courseServices.UpdateStudent(courseEntity);
-                    return base.RedirectToAction(nameof(Index));
+                    var courseNewEntity = _map.courseModelToCourse(courseModel);
+                    await courseServices.UpdateStudent(courseNewEntity);
+                    return Json(new { success = true });
 
                 }
                 catch (DbUpdateException)
@@ -129,7 +144,7 @@ namespace ContosoUniversity.Controllers
                 }
 
             }
-            return View(courseModel);
+            return Json(new { success = false });
         }
 
         // GET: Courses/Delete/5
@@ -162,12 +177,12 @@ namespace ContosoUniversity.Controllers
         // post:Courses/delete
 
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int id)
+        
+        public async Task<JsonResult> DeleteConfirm(int id)
         {
             await courseServices.DeletCourse(id);
 
-            return RedirectToAction(nameof(Index));
+            return Json(new { success = true });
         }
     }
 }
