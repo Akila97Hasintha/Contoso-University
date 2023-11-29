@@ -71,8 +71,8 @@ namespace ContosoUniversity.Controllers
         // post create
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StudentID,CourseID,Grade")] EnrollmentModel Emodel)
+       
+        public async Task<JsonResult> Create([Bind("StudentID,CourseID,Grade")] EnrollmentModel Emodel)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace ContosoUniversity.Controllers
                 {
                     var enrollmentEntity = _map.enrollmentModelToEnrollment(Emodel);
                     await enrollmentServices.CreateEnrollment(enrollmentEntity);
-                    return RedirectToAction(nameof(Index));
+                    return Json(new { success = true });
                 }
             }
             catch (DbUpdateException)
@@ -88,7 +88,7 @@ namespace ContosoUniversity.Controllers
                 ModelState.AddModelError("", "unable to save ");
             }
 
-            return View(Emodel);
+            return Json(new { success = false });
         }
         //  get enrollment/Edit
 

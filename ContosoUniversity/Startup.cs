@@ -109,6 +109,7 @@ namespace ContosoUniversity
             
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseCors();
            
 

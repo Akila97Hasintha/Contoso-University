@@ -41,6 +41,26 @@
       "PackagePath": "staticwebassets\\js\\course\\course.update.js"
     },
     {
+      "Id": "D:\\Sample Work\\Auth\\Contoso-University\\ContosoUniversity\\wwwroot\\js\\enrollment\\enrollment.create.js",
+      "PackagePath": "staticwebassets\\js\\enrollment\\enrollment.create.js"
+    },
+    {
+      "Id": "D:\\Sample Work\\Auth\\Contoso-University\\ContosoUniversity\\wwwroot\\js\\enrollment\\enrollment.delete.js",
+      "PackagePath": "staticwebassets\\js\\enrollment\\enrollment.delete.js"
+    },
+    {
+      "Id": "D:\\Sample Work\\Auth\\Contoso-University\\ContosoUniversity\\wwwroot\\js\\enrollment\\enrollment.details.js",
+      "PackagePath": "staticwebassets\\js\\enrollment\\enrollment.details.js"
+    },
+    {
+      "Id": "D:\\Sample Work\\Auth\\Contoso-University\\ContosoUniversity\\wwwroot\\js\\enrollment\\enrollment.index.js",
+      "PackagePath": "staticwebassets\\js\\enrollment\\enrollment.index.js"
+    },
+    {
+      "Id": "D:\\Sample Work\\Auth\\Contoso-University\\ContosoUniversity\\wwwroot\\js\\enrollment\\enrollment.update.js",
+      "PackagePath": "staticwebassets\\js\\enrollment\\enrollment.update.js"
+    },
+    {
       "Id": "D:\\Sample Work\\Auth\\Contoso-University\\ContosoUniversity\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
